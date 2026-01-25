@@ -1,0 +1,22 @@
+# Root .gitignore
+
+# System
+.DS_Store
+
+# Frontend (Client)
+client/node_modules
+client/dist
+client/.env
+client/.env.local
+client/.vscode
+client/*.png
+client/resource.json
+client/.gitignore
+
+# Backend (Server)
+backend/.Backenv
+backend/__pycache__
+backend/drivers/__pycache__
+backend/*.py[cod]
+backend/.env
+backend/*.json

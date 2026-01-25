@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Palette */
+  --color-primary: var(--brand-primary);
+  --color-primary-hover: var(--brand-primary-dark);
+  --color-secondary: var(--brand-secondary);
+  --color-neutral: var(--brand-neutral);
+
+  /* UI Semantics */
+  --color-surface: var(--bg-surface);
+  --color-panel: var(--bg-panel);
+  --color-border: var(--border-color);
+  --color-text-main: var(--text-base);
+}
+
+/* Light Mode: Amber Paper Theme */
+:root {
+  --brand-primary: #fa8112; /* Safety Orange */
+  --brand-primary-dark: #e56a00;
+
+  --brand-secondary: #f5e7c6; /* Muted Sand */
+  --brand-neutral: #222222; /* Deep Charcoal */
+
+  --bg-surface: #faf3e1; /* Canvas Cream */
+  --bg-panel: #ffffff; /* Node White */
+  --border-color: #e6ddc4; /* Border Cream */
+  --text-base: #222222;
+}
+
+/* Dark Mode: Industrial Black Theme */
+.dark {
+  --brand-primary: #fa8112;
+  --brand-primary-dark: #fb923c;
+  --brand-secondary: #222222; /* Deep Charcoal as secondary */
+  --brand-neutral: #f5e7c6; /* Sand as text */
+
+  --bg-surface: #080808; /* Your requested Black */
+  --bg-panel: #121212; /* Grey Panels */
+  --border-color: #262626; /* Subtle Borders */
+  --text-base: #ececec;
+}
+
+/* Fix for blurry icons & smooth transitions */
+@layer base {
+  svg {
+    shape-rendering: geometricPrecision;
+  }
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+@import "tailwindcss";
+
+/* ... (Your existing theme variables) ... */
+
+@layer utilities {
+  .node-entrance-anim {
+    animation: popIn 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  @keyframes popIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes shrink {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
+
+  /* Refined entrance to feel snappier for top-center */
+  .node-entrance-anim {
+    animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .toast-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Ensure icons stay crisp */
+svg {
+  shape-rendering: geometricPrecision;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* --- XYFLOW OVERRIDES --- */
+
+/* Fixes the container background and borders */
+.react-flow__controls {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Fixes ALL buttons inside the controls (default and custom) */
+.react-flow__controls-button {
+  background: var(--bg-panel) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--brand-neutral) !important;
+  fill: var(--brand-neutral) !important; /* For the default SVG icons */
+  transition: all 0.2s ease !important;
+}
+
+.react-flow__controls-button:hover {
+  background: color-mix(
+    in srgb,
+    var(--brand-primary),
+    transparent 80%
+  ) !important;
+  border-radius: 10px;
+}
+
+/* Removes the last border and fixes rounding */
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+/* Ensures icons are always sharp and centered */
+.react-flow__controls-button svg {
+  max-width: 14px !important;
+  max-height: 14px !important;
+}
+
+/* 🔌 Make the connection line match your Brand Primary */
+.react-flow__edge-path {
+  stroke: var(--brand-primary) !important;
+  stroke-width: 3;
+}
+
+/* 🟢 Remove the default '+' and replace with a clean dot */
+.react-flow__handle {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎯 Increase the "Magnetic" range so you don't have to be pixel-perfect */
+.react-flow__handle:after {
+  content: "";
+  position: absolute;
+  width: 30px; /* Huge invisible hit-box */
+  height: 30px;
+  background: transparent;
+}
+/* Ensure the main container doesn't spill over */
+.react-flow__pane {
+  overflow: hidden !important;
+}
+
+/* Specifically target the container where your toolbar lives */
+.your-flow-container-class {
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Hide scrollbars for Chrome, Safari and Opera */
+.react-flow::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbars for IE, Edge and Firefox */
+.react-flow {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

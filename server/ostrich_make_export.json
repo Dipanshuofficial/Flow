@@ -1,0 +1,125 @@
+{
+  "name": "Ostrich Flow Export",
+  "flow": [
+    {
+      "id": "mergeNode-1",
+      "module": "builtin:Aggregator",
+      "metadata": {
+        "designer": {
+          "x": 1314.0784706094041,
+          "y": -544.3097437321965
+        }
+      },
+      "parameters": {
+        "label": "mergeNode node"
+      }
+    },
+    {
+      "id": "customInput-1",
+      "module": "webhooks:CustomWebhook",
+      "metadata": {
+        "designer": {
+          "x": -248.0575195311254,
+          "y": -449.9171769225949
+        }
+      },
+      "parameters": {
+        "label": "customInput node"
+      }
+    },
+    {
+      "id": "customOutput-1",
+      "module": "builtin:NoOp",
+      "metadata": {
+        "designer": {
+          "x": 1879.4933753638572,
+          "y": -552.4291352624482
+        }
+      },
+      "parameters": {
+        "label": "customOutput node"
+      }
+    },
+    {
+      "id": "dataLog-1",
+      "module": "builtin:NoOp",
+      "metadata": {
+        "designer": {
+          "x": 1321.1739454599492,
+          "y": -737.352043309255
+        }
+      },
+      "parameters": {
+        "label": "dataLog node"
+      }
+    },
+    {
+      "id": "delayNode-1",
+      "module": "builtin:Sleep",
+      "metadata": {
+        "designer": {
+          "x": 1021.2403617953588,
+          "y": -724.5497108438414
+        }
+      },
+      "parameters": {
+        "label": "delayNode node"
+      }
+    },
+    {
+      "id": "loopNode-1",
+      "module": "builtin:Iterator",
+      "metadata": {
+        "designer": {
+          "x": 837.6515115809563,
+          "y": -197.9470248051578
+        }
+      },
+      "parameters": {
+        "label": "loopNode node"
+      }
+    },
+    {
+      "id": "text-1",
+      "module": "builtin:BasicVariable",
+      "metadata": {
+        "designer": {
+          "x": -253.52994381670422,
+          "y": -225.31864053648073
+        }
+      },
+      "parameters": {
+        "label": "text node"
+      }
+    },
+    {
+      "id": "customInput-2",
+      "module": "webhooks:CustomWebhook",
+      "metadata": {
+        "designer": {
+          "x": -570.1941071708004,
+          "y": -231.3089543647692
+        }
+      },
+      "parameters": {
+        "label": "customInput node"
+      }
+    },
+    {
+      "id": "condition-1",
+      "module": "builtin:Router",
+      "metadata": {
+        "designer": {
+          "x": 899.8996340965284,
+          "y": -485.2745340572065
+        }
+      },
+      "parameters": {
+        "label": "condition node"
+      }
+    }
+  ],
+  "metadata": {
+    "version": 1
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "label": "mergeNode node"
+      },
+      "name": "mergeNode-1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        1314.0784706094041,
+        -544.3097437321965
+      ]
+    },
+    {
+      "parameters": {
+        "label": "customInput node"
+      },
+      "name": "customInput-1",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -248.0575195311254,
+        -449.9171769225949
+      ]
+    },
+    {
+      "parameters": {
+        "label": "customOutput node"
+      },
+      "name": "customOutput-1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1879.4933753638572,
+        -552.4291352624482
+      ]
+    },
+    {
+      "parameters": {
+        "label": "dataLog node"
+      },
+      "name": "dataLog-1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1321.1739454599492,
+        -737.352043309255
+      ]
+    },
+    {
+      "parameters": {
+        "label": "delayNode node"
+      },
+      "name": "delayNode-1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1021.2403617953588,
+        -724.5497108438414
+      ]
+    },
+    {
+      "parameters": {
+        "label": "loopNode node"
+      },
+      "name": "loopNode-1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        837.6515115809563,
+        -197.9470248051578
+      ]
+    },
+    {
+      "parameters": {
+        "label": "text node"
+      },
+      "name": "text-1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -253.52994381670422,
+        -225.31864053648073
+      ]
+    },
+    {
+      "parameters": {
+        "label": "customInput node"
+      },
+      "name": "customInput-2",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -570.1941071708004,
+        -231.3089543647692
+      ]
+    },
+    {
+      "parameters": {
+        "label": "condition node"
+      },
+      "name": "condition-1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        653.6496340965285,
+        -620.2745340572064
+      ]
+    },
+    {
+      "parameters": {
+        "label": "llm node"
+      },
+      "name": "llm-1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        132.3996340965283,
+        -449.49328405720644
+      ]
+    }
+  ],
+  "connections": {
+    "customInput-2": {
+      "main": [
+        [
+          {
+            "node": "text-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delayNode-1": {
+      "main": [
+        [
+          {
+            "node": "mergeNode-1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "dataLog-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mergeNode-1": {
+      "main": [
+        [
+          {
+            "node": "customOutput-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "condition-1": {
+      "main": [
+        [
+          {
+            "node": "delayNode-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "customInput-1": {
+      "main": [
+        [
+          {
+            "node": "llm-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text-1": {
+      "main": [
+        [
+          {
+            "node": "llm-1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "mergeNode-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "llm-1": {
+      "main": [
+        [
+          {
+            "node": "condition-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "loopNode-1": {
+      "main": [
+        [
+          {
+            "node": "llm-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "zap": {
+    "title": "Exported Zap",
+    "steps": [
+      {
+        "id": "mergeNode-1",
+        "method": "action",
+        "params": {
+          "label": "mergeNode node"
+        },
+        "position": {
+          "x": 1314.0784706094041,
+          "y": -544.3097437321965
+        }
+      },
+      {
+        "id": "customInput-1",
+        "method": "trigger",
+        "params": {
+          "label": "customInput node"
+        },
+        "position": {
+          "x": -248.0575195311254,
+          "y": -449.9171769225949
+        }
+      },
+      {
+        "id": "customOutput-1",
+        "method": "action",
+        "params": {
+          "label": "customOutput node"
+        },
+        "position": {
+          "x": 1879.4933753638572,
+          "y": -552.4291352624482
+        }
+      },
+      {
+        "id": "dataLog-1",
+        "method": "action",
+        "params": {
+          "label": "dataLog node"
+        },
+        "position": {
+          "x": 1321.1739454599492,
+          "y": -737.352043309255
+        }
+      },
+      {
+        "id": "delayNode-1",
+        "method": "delay",
+        "params": {
+          "label": "delayNode node"
+        },
+        "position": {
+          "x": 1021.2403617953588,
+          "y": -724.5497108438414
+        }
+      },
+      {
+        "id": "loopNode-1",
+        "method": "action",
+        "params": {
+          "label": "loopNode node"
+        },
+        "position": {
+          "x": 837.6515115809563,
+          "y": -197.9470248051578
+        }
+      },
+      {
+        "id": "text-1",
+        "method": "formatter",
+        "params": {
+          "label": "text node"
+        },
+        "position": {
+          "x": -253.52994381670422,
+          "y": -225.31864053648073
+        }
+      },
+      {
+        "id": "customInput-2",
+        "method": "trigger",
+        "params": {
+          "label": "customInput node"
+        },
+        "position": {
+          "x": -570.1941071708004,
+          "y": -231.3089543647692
+        }
+      },
+      {
+        "id": "condition-1",
+        "method": "path",
+        "params": {
+          "label": "condition node"
+        },
+        "position": {
+          "x": 653.6496340965285,
+          "y": -620.2745340572064
+        }
+      },
+      {
+        "id": "llm-1",
+        "method": "action",
+        "params": {
+          "label": "llm node"
+        },
+        "position": {
+          "x": 132.3996340965283,
+          "y": -449.49328405720644
+        }
+      }
+    ]
+  }
+}
