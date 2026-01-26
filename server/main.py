@@ -4,6 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from typing import Dict
 
+# Import the bridge for Cloudflare
+from workers import WorkerEntrypoint
+import asgi
+
+
 from schemas import PipelineRequest
 from drivers.n8n_driver import N8NDriver
 from drivers.make_driver import MakeDriver
@@ -32,9 +37,9 @@ app = FastAPI(
 # PRODUCTION CORS: Restrict to your Vite dev server
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["https://ostrichflow.iamdipanshusinha.workers.dev/"],
     allow_credentials=True,
-    allow_methods=["POST", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -45,13 +50,7 @@ DRIVERS: Dict[str, BaseDriver] = {
 }
 
 
-@app.post(
-    "/export/{platform}",
-    tags=["Export"],
-    status_code=status.HTTP_200_OK,
-    summary="Generate platform-ready JSON",
-    response_class=FileResponse,
-)
+@app.post("/export/{platform}")
 async def export_pipeline(platform: str, request: PipelineRequest):
     target = platform.lower()
     driver = DRIVERS.get(target)
@@ -62,18 +61,17 @@ async def export_pipeline(platform: str, request: PipelineRequest):
         )
 
     try:
-        # 1. RUN ALL PRODUCTION CHECKS
         PipelineValidator.validate_all(request.nodes, request.edges)
-
-        # 2. PROCEED TO GENERATION
         exported_data = driver.generate(request.nodes, request.edges)
 
-        file_path = f"ostrich_{target}_export.json"
-        with open(file_path, "w") as f:
-            json.dump(exported_data, f, indent=2)
+        # FIX: Don't write to disk. Return the JSON directly as a file download.
+        json_content = json.dumps(exported_data, indent=2)
+        filename = f"ostrich_{target}_export.json"
 
-        return FileResponse(
-            path=file_path, filename=file_path, media_type="application/json"
+        return Response(
+            content=json_content,
+            media_type="application/json",
+            headers={"Content-Disposition": f"attachment; filename={filename}"},
         )
 
     except ValueError as ve:
@@ -82,6 +80,12 @@ async def export_pipeline(platform: str, request: PipelineRequest):
     except Exception as e:
         # Internal Errors (System's fault - 500)
         raise HTTPException(status_code=500, detail=f"Internal Error: {str(e)}")
+
+
+# THE BRIDGE: This is what Cloudflare actually runs
+class Default(WorkerEntrypoint):
+    async def fetch(self, request):
+        return await asgi.fetch(app, request, self.env)
 
 
 if __name__ == "__main__":
