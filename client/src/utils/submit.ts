@@ -32,6 +32,7 @@ export const validatePipeline = async (): Promise<boolean> => {
     return true;
   } catch (error) {
     toast.error("FastAPI Backend unreachable");
+    console.log(error);
     return false;
   }
 };
