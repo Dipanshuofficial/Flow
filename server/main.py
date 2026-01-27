@@ -1,13 +1,9 @@
 import json
+import os
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import Response
 from typing import Dict
-
-# Import the bridge for Cloudflare
-from workers import WorkerEntrypoint
-import asgi
-
 
 from schemas import PipelineRequest
 from drivers.n8n_driver import N8NDriver
@@ -15,9 +11,6 @@ from drivers.make_driver import MakeDriver
 from drivers.zapier_driver import ZapierDriver
 from drivers.base_driver import BaseDriver
 from validator import PipelineValidator
-
-# uvicorn main:app --reload --port 8000
-
 
 # Meta-information for the OpenAPI Documentation
 tags_metadata = [
@@ -35,15 +28,28 @@ app = FastAPI(
 )
 
 
+@app.get("/")
+async def root():
+    return {
+        "message": "Ostrich Flow API is running",
+        "version": "1.0.0",
+        "docs": "/docs",
+    }
+
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
 
-# PRODUCTION CORS: Restrict to your Vite dev server
+# CORS Configuration - Updated for production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://ostrichflow.iamdipanshusinha.workers.dev/"],
+    allow_origins=[
+        "https://ostrichflow.iamdipanshusinha.workers.dev",  # No trailing slash
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:3000",  # Alternative dev port
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -56,21 +62,30 @@ DRIVERS: Dict[str, BaseDriver] = {
 }
 
 
-@app.post("/export/{platform}")
+@app.post("/export/{platform}", tags=["Export"])
 async def export_pipeline(platform: str, request: PipelineRequest):
+    """
+    Export a React Flow pipeline to the specified platform format.
+
+    Supported platforms: n8n, make, zapier
+    """
     target = platform.lower()
     driver = DRIVERS.get(target)
 
     if not driver:
         raise HTTPException(
-            status_code=400, detail=f"Platform '{platform}' not supported."
+            status_code=400,
+            detail=f"Platform '{platform}' not supported. Available: {list(DRIVERS.keys())}",
         )
 
     try:
+        # Validate pipeline structure
         PipelineValidator.validate_all(request.nodes, request.edges)
+
+        # Generate platform-specific export
         exported_data = driver.generate(request.nodes, request.edges)
 
-        # FIX: Don't write to disk. Return the JSON directly as a file download.
+        # Return JSON as downloadable file
         json_content = json.dumps(exported_data, indent=2)
         filename = f"ostrich_{target}_export.json"
 
@@ -88,13 +103,9 @@ async def export_pipeline(platform: str, request: PipelineRequest):
         raise HTTPException(status_code=500, detail=f"Internal Error: {str(e)}")
 
 
-# THE BRIDGE: This is what Cloudflare actually runs
-class Default(WorkerEntrypoint):
-    async def fetch(self, request):
-        return await asgi.fetch(app, request, self.env)
-
-
+# Local development server
 if __name__ == "__main__":
     import uvicorn
+
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
