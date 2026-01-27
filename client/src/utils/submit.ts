@@ -1,12 +1,16 @@
 import toast from "react-hot-toast";
 import { useStore } from "../components/Store";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
 export const validatePipeline = async (): Promise<boolean> => {
   const { nodes, edges, setNodeError } = useStore.getState();
   setNodeError(null);
 
   try {
-    const response = await fetch("http://localhost:8000/export/n8n", {
+    const response = await fetch(`${API_BASE_URL}/export/n8n`, {
+      // Dynamic URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nodes, edges }),
@@ -33,10 +37,11 @@ export const validatePipeline = async (): Promise<boolean> => {
 };
 export const handleExport = async (platform: string) => {
   const { nodes, edges, setNodeError } = useStore.getState();
-  setNodeError(null); // Clear previous visual errors
+  setNodeError(null);
 
   try {
-    const response = await fetch(`http://localhost:8000/export/${platform}`, {
+    const response = await fetch(`${API_BASE_URL}/export/${platform}`, {
+      // Dynamic URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nodes, edges }),
