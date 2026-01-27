@@ -34,6 +34,12 @@ app = FastAPI(
     openapi_tags=tags_metadata,
 )
 
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
+
 # PRODUCTION CORS: Restrict to your Vite dev server
 app.add_middleware(
     CORSMiddleware,
@@ -90,5 +96,5 @@ class Default(WorkerEntrypoint):
 
 if __name__ == "__main__":
     import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
