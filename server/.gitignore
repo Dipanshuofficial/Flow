@@ -1,6 +1,19 @@
-__pycache__/
-*.py[cod]
-*$py.class
-.env
-.Backenv/
-.wrangler
+# Server .gitignore
+# Additional server-specific ignores beyond root
+
+# Cloudflare Wrangler
+.wrangler/
+
+# Local development database
+*.db
+*.sqlite
+*.sqlite3
+
+# Export files (generated)
+*.json
+!requirements.txt
+!runtime.txt
+!wrangler.jsonc
+
+# Keep Python source files
+!*.py

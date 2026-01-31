@@ -1,22 +1,87 @@
 # Root .gitignore
 
-# System
+# System files
 .DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Frontend (Client)
-client/node_modules
-client/dist
+client/node_modules/
+client/dist/
+client/dist-ssr/
 client/.env
 client/.env.local
-client/.vscode
-client/*.png
-client/resource.json
-client/.gitignore
+client/.env.*.local
+client/*.local
 
 # Backend (Server)
-backend/.Backenv
-backend/__pycache__
-backend/drivers/__pycache__
-backend/*.py[cod]
-backend/.env
-backend/*.json
+server/__pycache__/
+server/**/__pycache__/
+server/*.py[cod]
+server/*$py.class
+server/.env
+server/.Backenv
+server/.env.local
+server/.venv/
+server/venv/
+server/env/
+server/.wrangler/
+server/*.json
+# Python (anywhere in repo)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+AGENTS.md
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Node
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary/Generated files
+*.tmp
+*.temp
+resource.json
+framer.json

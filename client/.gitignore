@@ -1,0 +1,14 @@
+# Client .gitignore
+# Additional client-specific ignores beyond root
+
+# Build output
+dist
+dist-ssr
+
+# Local env files
+*.local
+
+# Screenshots/generated images (unless you want to commit examples)
+*.png
+*.jpg
+*.jpeg
